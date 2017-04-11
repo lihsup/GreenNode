@@ -12,7 +12,7 @@ router.get('/CheckDate', function(req,res,next){
 	user.CheckDate(req,res,next);
 });
 
-router.get('/AddResponse', function(req,res,next){
+router.get('/AddResponse/', function(req,res,next){
 	user.AddResponse(req,res,next);
 });
 
@@ -34,6 +34,14 @@ router.get('/ExecJava', function(req,res,next){
 
 router.get('/BoostPython', function(req,res,next){
 	user.BoostPython(req,res,next);
+});
+
+router.get('/WriteMap', function(req,res,next){
+	user.WriteMap(req,res,next);
+});
+
+router.get('/ReadMap', function(req,res,next){
+	user.ReadMap(req,res,next);
 });
 
 router.post('/upload/Java', upload.java.single('avatar'), function (req, res, next) {  

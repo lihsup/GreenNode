@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var upload = require('./fileuploads');
+var container = require('../conf/container');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -8,7 +9,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/hello', function (req, res) {
-  res.send('Hello World!');
+	res.send('hello');    
 })
 
 router.get('/upload', function (req, res) {
