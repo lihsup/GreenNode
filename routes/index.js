@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var upload = require('./fileuploads');
-var container = require('../conf/container');
+//var container = require('../conf/container');
 
 /* GET home page. */
 router.get('/', function(req, res) {

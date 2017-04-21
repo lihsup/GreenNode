@@ -1,9 +1,10 @@
 var mysql = require('mysql');
 var $conf = require('../conf/db');
 var cmd = require('./sqlMap');
-var container = require('../conf/container')
+var penguin  = require('./link')
 var m = new Map();
 var n = new Map();
+penguin.initial(1);
 
 module.exports = {
     CheckDate: function (req, res, next) {
@@ -72,12 +73,39 @@ module.exports = {
 	
 	var param = req.query || req.params;
 	var shell = require('shelljs');
-	container.penguin = container.penguin + 1;
+	//container.penguin = container.penguin + 1;
 	n.set(param.id,false);
-	
+	penguin.addfunc(param.func+".java")
+	penguin.listall(1)
 	shell.cd('/home/tcalab/Java/co2reader/');
 	shell.exec('./cexec.sh '+param.d1+' '+param.d2+' '+param.l+' '+param.rid+' '+param.func+' penguin');
 	//if (error) throw error;
+	res.send("penguin");
+	
+    },
+    CompileJava: function (req, res, next) {
+	
+	var param = req.query || req.params;
+	var shell = require('shelljs');
+	//container.penguin = container.penguin + 1;
+	shell.cd('/home/tcalab/Java/co2reader/');
+	n.set(param.func,false);
+	shell.exec('./duplicate.sh '+param.func+' penguin');
+	//if (error) throw error;
+	res.send("penguin");
+	
+    },
+    RunJava : function (req, res, next) {
+	
+	var param = req.query || req.params;
+	var shell = require('shelljs');
+	//container.penguin = container.penguin + 1;
+	n.set(param.id,false);
+	penguin.addfunc(param.func+".java")
+	penguin.listall(1)
+	shell.cd('/home/tcalab/Java/co2reader/');
+	shell.exec('./step.sh '+param.d1+' '+param.d2+' '+param.l+' '+param.rid+' '+param.func+' penguin');
+		
 	res.send("penguin");
 	
     },
@@ -113,7 +141,7 @@ module.exports = {
  
 	connection.query(cmd.GET + cmd.id ,[param.id], function (error, results, fields) {
 	if (error) throw error;
-	console.log(results);
+	//console.log(results);
 	//res.setHeader('Content-Type', 'application/json');
 	res.send(results);
 	});
@@ -121,17 +149,21 @@ module.exports = {
 	connection.end();
     },
 WriteMap: function (req, res, next) {
-	var param = req.query || req.params;
+	var param = req.params;
 	m.set(param.id,param.val);
 	n.set(param.id,true);
 	res.send('1');
     },
 ReadMap: function (req, res, next) {
-	var param = req.query || req.params;
+	var param = req.params;
 	
 	if(n.get(param.id)==true) {res.send(m.get(param.id));}
 	else {res.send("-1");}
 	n.set(param.id,false);
     },
-
+CacheFunction: function (req, res, next) {
+	var param = req.params;
+	
+	res.send(""+penguin.check(param.name))
+    },
 };
